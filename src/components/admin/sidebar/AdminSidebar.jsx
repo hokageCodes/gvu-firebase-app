@@ -24,11 +24,13 @@ const AdminSidebar = () => {
     <nav className={`sidebar ${isClosed ? 'close' : ''} ${isDarkMode ? 'dark' : ''}`}>
       <header className="flex justify-between items-center p-4">
         <div className="flex items-center">
-          <img
-            src="/assets/logo.jpg"
-            alt="logo"
-            className="w-10 h-10 rounded-lg"
-          />
+          <a href="/">
+            <img
+              src="/assets/logo.jpg"
+              alt="logo"
+              className="w-10 h-10 rounded-lg"
+            />
+          </a>
           <div className="ml-4">
             <span className="block font-semibold">Glorius Vision</span>
             <span className="block text-sm">University</span>
