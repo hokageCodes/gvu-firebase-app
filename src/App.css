@@ -1,0 +1,22 @@
+/* Add this CSS to your stylesheet */
+/* AdminSidebar.css or any other appropriate file */
+
+/* Styling for expanded sidebar */
+.expanded {
+    width: 240px; /* Set desired width */
+    transition: width 0.3s ease;
+  }
+  
+  /* Styling for collapsed sidebar */
+  .collapsed {
+    width: 64px; /* Set desired width when collapsed */
+    transition: width 0.3s ease;
+  }
+  
+  /* Hide text when sidebar is collapsed */
+  .collapsed ul li a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  

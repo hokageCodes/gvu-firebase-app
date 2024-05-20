@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase"; // Ensure correct imports
+import { auth, db } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
 
@@ -14,21 +14,16 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null); // Clear previous errors
-
     try {
-      // Perform admin login with Firebase Auth
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Check if the logged-in user is an admin
-      const adminSnapshot = await getDoc(doc(db, "admin", user.uid));
-      if (!adminSnapshot.exists() || !adminSnapshot.data().isAdmin) {
-        throw new Error("You are not authorized to access this page.");
+      const adminDoc = await getDoc(doc(db, "admin", user.uid));
+      if (adminDoc.exists() && adminDoc.data().adminEmail === email) {
+        // Use the new field adminEmail for verification
+        navigate("/admin-dashboard");
+      } else {
+        throw new Error("Not authorized as admin");
       }
-
-      // Redirect to admin dashboard on successful login
-      navigate("/admin-dashboard"); // Replace with your admin dashboard route
     } catch (error) {
       setError(error.message);
     }
@@ -63,4 +58,3 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
-

@@ -1,50 +1,52 @@
-import React, { useEffect, useState } from "react";
+// App.js
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from "./firebase";
+import { AuthProvider } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
+import PublicNavBar from "./components/navbar/PublicNavBar";
+import StudentNavBar from "./components/navbar/StudentNavBar";
+import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
 import StudentDashboard from "./pages/StudentDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
-import PublicNavBar from "./components/navbar/PublicNavBar";
-import StudentNavBar from "./components/navbar/StudentNavBar";
-import AdminNavBar from "./components/navbar/AdminNavBar";
-import ProtectedRoute from "./components/ProtectedRoute";
+import UploadPastQuestions from "./components/admin/UploadPastQuestions";
+import ManageStudents from "./components/admin/ManageStudents";
+import ViewUploads from "./components/admin/ViewUploads";
+import AdminLayout from "./components/admin/AdminLayout"; // Import AdminLayout
+import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage";
+import CGPACalculator from "./pages/CGPACalculator";
+import FAQs from "./pages/FAQs";
+import PastQuestionsPage from "./pages/PastQuestionsPage";
+import LevelsPage from "./pages/LevelsPage";
+import DepartmentsPage from "./pages/DepartmentsPage";
 
 const Layout = ({ children }) => {
-  const { currentUser } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    const checkAdmin = async () => {
-      if (currentUser) {
-        const adminSnapshot = await getDoc(doc(db, "admin", currentUser.uid));
-        setIsAdmin(adminSnapshot.exists() && adminSnapshot.data().isAdmin);
-      }
-    };
-
-    checkAdmin();
-  }, [currentUser]);
+  const { currentUser, isAdmin } = useAuth();
 
   if (!currentUser) {
     return (
       <>
         <PublicNavBar />
-        {children}
+        <div>{children}</div>
       </>
     );
   }
 
   if (isAdmin) {
-    return <AdminNavBar />;
+    return (
+      <>
+        <AdminLayout>{children}</AdminLayout> {/* Render AdminLayout for admin */}
+      </>
+    );
   }
 
   return (
     <>
       <StudentNavBar />
-      {children}
+      <div>{children}</div>
     </>
   );
 };
@@ -55,11 +57,58 @@ function App() {
       <AuthProvider>
         <Layout>
           <Routes>
+            {/* App Pages */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/cgpa-calculator" element={<CGPACalculator />} />
+            <Route path="/past-questions" element={<PastQuestionsPage />} />
+            <Route path="/departments/:facultyId" element={<DepartmentsPage />} />
+            <Route path="/levels/:facultyId/:departmentId" element={<LevelsPage />} />
+            <Route path="/faqs" element={<FAQs />} />
+            {/* App Pages End */}
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/student-dashboard" element={<ProtectedRoute studentOnly><StudentDashboard /></ProtectedRoute>} />
-            <Route path="/admin-dashboard" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
+            <Route
+              path="/student-dashboard"
+              element={
+                <ProtectedRoute studentOnly>
+                  <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AdminDashboard /> {/* Render AdminDashboard */}
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/upload"
+              element={
+                <ProtectedRoute adminOnly>
+                  <UploadPastQuestions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/manage-students"
+              element={
+                <ProtectedRoute adminOnly>
+                  <ManageStudents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/view-uploads"
+              element={
+                <ProtectedRoute adminOnly>
+                  <ViewUploads />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Layout>
       </AuthProvider>

@@ -4,8 +4,8 @@ import { useAuth } from "../context/AuthContext";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-const ProtectedRoute = ({ children, adminOnly = false, studentOnly = false }) => {
-  const { currentUser } = useAuth();
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { currentUser, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -18,16 +18,18 @@ const ProtectedRoute = ({ children, adminOnly = false, studentOnly = false }) =>
       setLoading(false);
     };
 
-    checkAdmin();
+    if (currentUser) {
+      checkAdmin();
+    } else {
+      setLoading(false);
+    }
   }, [currentUser]);
 
-  if (loading) return <div>Loading...</div>;
+  if (authLoading || loading) return <div>Loading...</div>; // Show loading state until checks are complete
 
   if (!currentUser) return <Navigate to="/login" />;
 
   if (adminOnly && !isAdmin) return <Navigate to="/admin-login" />;
-
-  if (studentOnly && isAdmin) return <Navigate to="/login" />;
 
   return children;
 };

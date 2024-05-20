@@ -1,0 +1,81 @@
+{
+    "faculties": [
+      {
+        "name": "College Of Basic And Applied Sciences",
+        "departments": [
+          {
+            "name": "Mathematical And Physical Sciences (MPS)",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Chemical Sciences",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Biological Sciences",
+            "levels": ["100", "200", "300", "400"]
+          }
+        ]
+      },
+      {
+        "name": "College Of Management And Social Sciences",
+        "departments": [
+          {
+            "name": "Mass Communication",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Accounting",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Economics",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Public Administration",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Business Administration",
+            "levels": ["100", "200", "300", "400"]
+          }
+        ]
+      },
+      {
+        "name": "College Of Humanities",
+        "departments": [
+          {
+            "name": "History and diplomatic studies ",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Languages ",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "Philosophy ",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "religious study",
+            "levels": ["100", "200", "300", "400"]
+          },
+          {
+            "name": "French",
+            "levels": ["100", "200", "300", "400"]
+          }
+        ]
+      },
+      {
+        "name": "College Of Law",
+        "departments": [
+          {
+            "name": "Law",
+            "levels": ["100", "200", "300", "400", "500"]
+          }
+        ]
+      }
+    ]
+  }
+  

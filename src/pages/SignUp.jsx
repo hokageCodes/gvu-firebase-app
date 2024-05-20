@@ -27,6 +27,7 @@ const SignUp = () => {
         phoneNumber,
       });
       setSuccessMessage("Sign up successful!");
+      window.location.href = "/"
     } catch (error) {
       setError(error.message);
     }

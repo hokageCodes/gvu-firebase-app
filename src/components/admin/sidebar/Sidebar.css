@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.sidebar.dark {
+  background-color: #242526;
+}
+
+.sidebar.dark .text {
+  color: #ccc;
+}
+
+.sidebar.close {
+  width: 200px;
+}
+
+.sidebar.close .text {
+  opacity: 0;
+}
+
+.toggle {
+  transform: rotate(180deg);
+}
+
+.close .toggle {
+  transform: rotate(0);
+}
