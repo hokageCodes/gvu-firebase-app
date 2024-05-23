@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import Aos from "aos";
 import 'aos/dist/aos.css'; // Don't forget to import AOS CSS
-import Sciences from '../../assets/sciences.jpg'; // Adjust the path to your image
-import Arts from '../../assets/arts.jpg';
-import Law from '../../assets/law.jpg';
-import Humanities from '../../assets/humanities.webp';
+import Sciences from '../../assets/COBAS.jpg'; // Adjust the path to your image
+import Arts from '../../assets/COMAS.jpg';
+import Law from '../../assets/COLAW.jpg';
+import Humanities from '../../assets/COHUM.jpg';
 
 export default function OurColleges() {
     useEffect(() => {

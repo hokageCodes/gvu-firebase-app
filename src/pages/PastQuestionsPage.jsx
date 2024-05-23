@@ -13,7 +13,7 @@ function PastQuestionsPage() {
             <DepartmentCard
               name={faculty.name}
               description="Write an amazing description in this dedicated card section. Each word counts."
-              imageUrl="URL_TO_IMAGE" // replace with actual image URL or dynamic URL
+              imageUrl={faculty.imageUrl} // use dynamic image URL
             />
           </Link>
         ))}

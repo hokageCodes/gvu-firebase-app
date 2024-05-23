@@ -65,6 +65,12 @@ const AdminSidebar = () => {
               <span className="text">View Uploads</span>
             </Link>
           </li>
+          <li className="nav-link mb-4">
+            <Link to="/messages" className="flex items-center p-2 rounded hover:bg-gray-200">
+              <i className="bx bx-list-ul icons text-xl mr-4"></i>
+              <span className="text">Messages</span>
+            </Link>
+          </li>
         </ul>
 
         <div className="bottom-content p-4">

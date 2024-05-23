@@ -18,6 +18,7 @@ const PublicNavBar = () => {
         <Link to="/cgpa-calculator">CGPA Calculator</Link>
         <Link to="/past-questions">Past Questions</Link>
         <Link to="/faqs">FAQs</Link>
+        <Link to="/contact-us">Contact</Link>
       </div>
       <div className="md:flex hidden space-x-4">
         <Link to="/signup" className="bg-blue-500 text-white px-4 py-2 rounded">Sign Up</Link>

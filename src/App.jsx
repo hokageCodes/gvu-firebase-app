@@ -22,6 +22,7 @@ import FAQs from "./pages/FAQs";
 import PastQuestionsPage from "./pages/PastQuestionsPage";
 import LevelsPage from "./pages/LevelsPage";
 import DepartmentsPage from "./pages/DepartmentsPage";
+import Contact from "./pages/ContactPage";
 
 const Layout = ({ children }) => {
   const { currentUser, isAdmin } = useAuth();
@@ -59,6 +60,7 @@ function App() {
           <Routes>
             {/* App Pages */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/contact-us" element={<Contact />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/cgpa-calculator" element={<CGPACalculator />} />
             <Route path="/past-questions" element={<PastQuestionsPage />} />

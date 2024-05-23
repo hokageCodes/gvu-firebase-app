@@ -6,6 +6,7 @@ import AdminContent from './AdminContent';
 import ManageStudents from './ManageStudents';
 import UploadPastQuestions from './UploadPastQuestions';
 import ViewUploads from './ViewUploads';
+import ViewMessages from './ViewMessages';
 
 const AdminLayout = () => {
   return (
@@ -19,6 +20,7 @@ const AdminLayout = () => {
             <Route path="/student-management" element={<ManageStudents />} />
             <Route path="/upload-past-questions" element={<UploadPastQuestions />} />
             <Route path="/view-uploads" element={<ViewUploads />} />
+            <Route path="/messages" element={<ViewMessages />} />
           </Routes>
         </main>
       </div>

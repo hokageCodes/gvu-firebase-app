@@ -58,6 +58,7 @@ const StudentNavBar = () => {
         <Link to="/cgpa-calculator">CGPA Calculator</Link>
         <Link to="/past-questions">Past Questions</Link>
         <Link to="/faqs">FAQs</Link>
+        <Link to="/contact-us">Contact</Link>
       </div>
       {!currentUser ? (
         <div className="md:flex hidden space-x-4">
@@ -99,6 +100,7 @@ const StudentNavBar = () => {
             <Link to="/cgpa-calculator" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>CGPA Calculator</Link>
             <Link to="/past-questions" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Past Questions</Link>
             <Link to="/faqs" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>FAQs</Link>
+            <Link to="/contact-us" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Contact Us</Link>
             {!currentUser && (
               <div className="flex flex-col space-y-2">
                 <Link to="/signup" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Sign Up</Link>
