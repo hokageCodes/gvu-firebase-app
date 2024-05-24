@@ -9,6 +9,8 @@ const UploadPastQuestions = () => {
     department: '',
     level: '',
     year: '',
+    semester: '',
+    courseCode: '',
     file: null
   };
 
@@ -48,6 +50,7 @@ const UploadPastQuestions = () => {
   };
 
   const levels = ["100", "200", "300", "400", "500"];
+  const semesters = ["1st", "2nd"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,7 +72,7 @@ const UploadPastQuestions = () => {
     setUploadSuccess(null);
 
     try {
-      const fileRef = ref(storage, `past-questions/${formData.college}/${formData.department}/${formData.level}/${formData.file.name}`);
+      const fileRef = ref(storage, `past-questions/${formData.college}/${formData.department}/${formData.level}/${formData.year}/${formData.semester}/${formData.courseCode}_${formData.file.name}`);
       const uploadTask = uploadBytesResumable(fileRef, formData.file);
 
       uploadTask.on('state_changed',
@@ -89,6 +92,8 @@ const UploadPastQuestions = () => {
               department: formData.department,
               level: formData.level,
               year: formData.year,
+              semester: formData.semester,
+              courseCode: formData.courseCode,
               fileUrl: downloadURL,
               fileName: formData.file.name,
               fileSize: formData.file.size
@@ -161,11 +166,37 @@ const UploadPastQuestions = () => {
           </select>
         </div>
         <div>
-          <label className="block text-gray-700">Year/Semester</label>
+          <label className="block text-gray-700">Year</label>
           <input
             type="text"
             name="year"
             value={formData.year}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Semester</label>
+          <select
+            name="semester"
+            value={formData.semester}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
+          >
+            <option value="">Select Semester</option>
+            {semesters.map((semester, index) => (
+              <option key={index} value={semester}>{semester}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-gray-700">Course Code</label>
+          <input
+            type="text"
+            name="courseCode"
+            value={formData.courseCode}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
             required
@@ -197,3 +228,4 @@ const UploadPastQuestions = () => {
 };
 
 export default UploadPastQuestions;
+

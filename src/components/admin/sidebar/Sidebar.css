@@ -1,35 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:wght@300;400;500;600;700&display=swap');
-
-body {
-  font-family: 'Poppins', sans-serif;
-}
+/* Sidebar.css */
 
 .sidebar {
   width: 250px;
-  background-color: #fff;
-  transition: all 0.2s ease;
+  transition: transform 0.3s ease-in-out;
 }
 
 .sidebar.dark {
-  background-color: #242526;
+  background-color: #333;
+  color: #fff;
 }
 
-.sidebar.dark .text {
-  color: #ccc;
+.menu-links a,
+.bottom-content button {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.3s;
 }
 
-.sidebar.close {
-  width: 200px;
+.menu-links a:hover,
+.bottom-content button:hover {
+  background-color: #e0e0e0;
 }
 
-.sidebar.close .text {
-  opacity: 0;
+.bx {
+  font-family: 'Boxicons';
 }
 
 .toggle {
-  transform: rotate(180deg);
+  cursor: pointer;
 }
 
-.close .toggle {
-  transform: rotate(0);
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0);
+  }
 }

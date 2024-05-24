@@ -81,10 +81,10 @@ export default function ViewMessages() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2 className="text-4xl font-bold mb-8 text-center">View Messages</h2>
-      <div className="mb-4 flex justify-center space-x-4">
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">View Messages</h2>
+      <div className="mb-4 flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
         <select
-          className="p-2 border rounded"
+          className="p-2 md:p-3 border rounded text-sm md:text-base"
           value={collegeFilter}
           onChange={(e) => setCollegeFilter(e.target.value)}
         >
@@ -94,7 +94,7 @@ export default function ViewMessages() {
           ))}
         </select>
         <select
-          className="p-2 border rounded"
+          className="p-2 md:p-3 border rounded text-sm md:text-base"
           value={departmentFilter}
           onChange={(e) => setDepartmentFilter(e.target.value)}
           disabled={!collegeFilter}
@@ -105,21 +105,21 @@ export default function ViewMessages() {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {filteredMessages.map((message) => (
-          <div key={message.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 relative">
+          <div key={message.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6 relative">
             <button
               onClick={() => handleDelete(message.id)}
               className="absolute top-2 right-2 text-red-600 hover:text-red-800"
             >
               <FaTrash />
             </button>
-            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{message.fullName}</h3>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">Matric Number: {message.matricNumber}</p>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">College: {message.college}</p>
-            <p className="text-gray-700 dark:text-gray-300 mb-2">Department: {message.department}</p>
-            <p className="text-gray-700 dark:text-gray-300 mb-4">{message.message}</p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Submitted on: {new Date(message.createdAt.seconds * 1000).toLocaleString()}</p>
+            <h3 className="text-lg md:text-xl font-semibold mb-2 text-gray-900 dark:text-white">{message.fullName}</h3>
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-2">Matric Number: {message.matricNumber}</p>
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-2">College: {message.college}</p>
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-2">Department: {message.department}</p>
+            <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-4">{message.message}</p>
+            <p className="text-xs md:text-sm text-gray-500 dark:text-gray-400">Submitted on: {new Date(message.createdAt.seconds * 1000).toLocaleString()}</p>
           </div>
         ))}
       </div>

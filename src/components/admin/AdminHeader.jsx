@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
+import { BiBell } from 'react-icons/bi'; // Import the notifications icon
 import { useAuth } from '../../context/AuthContext';
-import { auth, db } from '../../firebase';
 import { signOut } from 'firebase/auth';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { FaEnvelope } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { auth, db } from '../../firebase';
 
 const AdminHeader = () => {
-  const { currentUser, adminName } = useAuth();
+  const { currentUser, adminName, adminEmail } = useAuth();
   const [greeting, setGreeting] = useState('');
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [messagesDropdownOpen, setMessagesDropdownOpen] = useState(false);
+  const menuRef = useRef(null);
+  const [messages, setMessages] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-
-  useEffect(() => {
-    const currentHour = new Date().getHours();
-    if (currentHour < 12) {
-      setGreeting('Good Morning');
-    } else if (currentHour < 18) {
-      setGreeting('Good Afternoon');
-    } else {
-      setGreeting('Good Evening');
-    }
-  }, []);
 
   const fetchMessages = async () => {
     try {
@@ -45,28 +35,6 @@ const AdminHeader = () => {
   useEffect(() => {
     fetchMessages();
   }, []);
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
-  const toggleMessagesDropdown = () => {
-    setMessagesDropdownOpen(!messagesDropdownOpen);
-  };
-
-  const closeDropdown = () => {
-    setDropdownOpen(false);
-  };
-
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        window.location.href = '/admin-login';
-      })
-      .catch((error) => {
-        console.error('Error signing out:', error);
-      });
-  };
 
   const markAsRead = async (messageId) => {
     try {
@@ -90,43 +58,70 @@ const AdminHeader = () => {
     setMessages(messages.filter(msg => msg.id !== messageId));
   };
 
+  useEffect(() => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      setGreeting('Good Morning');
+    } else if (currentHour < 18) {
+      setGreeting('Good Afternoon');
+    } else {
+      setGreeting('Good Evening');
+    }
+
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const toggleProfileMenu = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  const toggleMessagesDropdown = () => {
+    setMessagesDropdownOpen(!messagesDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        window.location.href = '/admin-login';
+      })
+      .catch((error) => {
+        console.error('Error signing out:', error);
+      });
+  };
+
   return (
-    <header className="px-4 py-2 shadow bg-white w-full md:w-auto md:flex-shrink-0">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-lg font-semibold">Welcome, {adminName || 'Admin'}</h1>
-          <p className="text-gray-600">{greeting}</p>
-        </div>
-
-        <div className="relative flex items-center">
-          <button
-            className="relative"
-            onClick={toggleMessagesDropdown}
-          >
-            <FaEnvelope className="text-xl" />
-            {unreadCount > 0 && (
-              <span className="ml-2 text-sm bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center absolute top-0 right-0 transform -translate-x-1/2 -translate-y-1/2">
-                {unreadCount}
-              </span>
-            )}
+    <header className="bg-[#fff] text-[#01553d] flex justify-between items-center px-4 py-2 sm:px-6 lg:px-8">
+      <div className="flex items-center">
+        <h1 className="text-base sm:text-lg md:text-xl font-semibold">{greeting}, {adminName || 'Admin'}</h1>
+      </div>
+      <div className="flex items-center">
+        <div className="ml-4 flex items-center">
+          <button className="focus:outline-none" onClick={toggleMessagesDropdown}>
+            {/* Notifications icon */}
+            <BiBell style={{ fontSize: '24px' }} />
+            {unreadCount > 0 && <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1 ml-1">{unreadCount}</span>}
           </button>
-
           {messagesDropdownOpen && (
-            <div
-              className="text-sm text-left absolute top-12 right-0 mt-1 bg-white rounded border border-gray-400 shadow max-h-64 overflow-y-auto w-80 z-10"
-            >
+            <div className="absolute right-0 mt-12 w-80 bg-white border border-gray-300 rounded shadow-md">
               <ul>
                 {messages.length > 0 ? (
                   messages.map(message => (
-                    <li key={message.id} className="px-4 py-3 border-b hover:bg-gray-200">
-                      <Link to={`/messages`} className="block">
-                        <p className="font-bold">{message.fullName}</p>
-                        <p className="text-gray-700">{message.message.substring(0, 50)}...</p>
-                        <p className="text-gray-500 text-xs">{new Date(message.createdAt.seconds * 1000).toLocaleString()}</p>
-                      </Link>
+                    <li key={message.id} className="px-4 py-3 border-b hover:bg-gray-100">
+                      <p className="font-bold">{message.fullName}</p>
+                      <p className="text-gray-700">{message.message.substring(0, 50)}...</p>
+                      <p className="text-gray-500 text-xs">{new Date(message.createdAt.seconds * 1000).toLocaleString()}</p>
                       {!message.read && (
                         <button
-                          className="text-xs text-blue-500 hover:underline focus:outline-none mr-2"
+                          className="text-xs text-blue-500 hover:underline focus:outline-none"
                           onClick={() => markAsRead(message.id)}
                         >
                           Mark as Read
@@ -140,33 +135,31 @@ const AdminHeader = () => {
               </ul>
             </div>
           )}
-
-          <button
-            data-dropdown
-            className="flex items-center px-3 py-2 ml-4 focus:outline-none hover:bg-gray-200 hover:rounded-md"
-            type="button"
-            onClick={toggleDropdown}
-          >
-            <img
-              src={currentUser ? currentUser.photoURL : 'https://via.placeholder.com/100'}
-              alt="Profile"
-              className="h-8 w-8 rounded-full"
+        </div>
+        <div className="relative flex items-center gap-4" ref={menuRef}>
+          <div className="flex items-center cursor-pointer" onClick={toggleProfileMenu}>
+            <img 
+              src={currentUser ? currentUser.photoURL : 'https://via.placeholder.com/40'} 
+              alt="User" 
+              className="rounded-full border-2 border-gray-300 h-8 w-8 sm:h-10 sm:w-10 object-cover" 
             />
-            <span className="ml-4 text-sm hidden md:inline-block">{adminName || 'Jessica Smith'}</span>
-            <svg className="fill-current w-3 ml-4" viewBox="0 0 407.437 407.437">
-              <path d="M386.258 91.567l-182.54 181.945L21.179 91.567 0 112.815 203.718 315.87l203.719-203.055z" />
-            </svg>
-          </button>
-          {dropdownOpen && (
-            <div
-              data-dropdown-items
-              className="text-sm text-left absolute top-12 right-0 mt-1 bg-white rounded border border-gray-400 shadow"
-            >
-              <ul>
-                <li className="px-4 py-3 hover:bg-gray-200">
-                  <button onClick={handleLogout}>Logout</button>
-                </li>
-              </ul>
+            <IoIosArrowDown className="ml-2" />
+          </div>
+          {isProfileMenuOpen && (
+            <div className="absolute right-0 mt-56 w-48 rounded-md shadow-lg bg-white py-1 z-50">
+              <div className="px-4 py-2">
+                <p className="text-sm sm:text-base font-semibold text-[#01553d]">{adminName}</p>
+                <p className="text-xs sm:text-sm text-gray-500">{adminEmail}</p>
+              </div>
+              <hr />
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+              <button 
+                onClick={handleLogout} 
+                className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Log out
+              </button>
             </div>
           )}
         </div>
@@ -174,5 +167,5 @@ const AdminHeader = () => {
     </header>
   );
 };
-
+              
 export default AdminHeader;

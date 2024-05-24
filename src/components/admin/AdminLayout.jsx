@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AdminSidebar from './sidebar/AdminSidebar';
 import AdminHeader from './AdminHeader';
@@ -9,11 +9,17 @@ import ViewUploads from './ViewUploads';
 import ViewMessages from './ViewMessages';
 
 const AdminLayout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="relative flex h-screen overflow-hidden">
-      <AdminSidebar />
+      <AdminSidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex flex-col flex-1">
-        <AdminHeader />
+        <AdminHeader toggleSidebar={toggleSidebar} />
         <main className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/admin-dashboard" element={<AdminContent />} />

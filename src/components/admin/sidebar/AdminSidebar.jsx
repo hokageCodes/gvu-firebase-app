@@ -1,91 +1,80 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Sidebar.css'; // If you have additional styles
+import React, { useState } from "react";
+import { HiMenuAlt3, HiOutlineUserGroup, HiPlus } from "react-icons/hi";
+import { MdOutlineDashboard, MdWorkOutline } from "react-icons/md";
+import { RiSettings4Line, RiUploadLine } from "react-icons/ri";
+import { AiOutlineUser } from "react-icons/ai";
+import Logo from '../../../assets/logo.jpg'; // Adjust the path as necessary
 
 const AdminSidebar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isClosed, setIsClosed] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState({ people: false, careers: false });
 
-  const handleModeSwitch = () => {
-    setIsDarkMode(!isDarkMode);
-    document.body.classList.toggle('dark');
+  const toggleDropdown = (section) => {
+    setDropdownOpen(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const handleToggle = () => {
-    setIsClosed(!isClosed);
-  };
-
-  const handleLogout = () => {
-    // Perform logout operations (e.g., clearing auth tokens)
-    window.location.href = '/admin-login';
-  };
+  const menus = [
+    { name: "Dashboard", link: "/admin-dashboard", icon: MdOutlineDashboard },
+    {
+      name: "Student Management", link: "/student-management",
+      icon: HiOutlineUserGroup,
+    },
+    {
+      name: "Upload Past-Question", link: "/upload-past-questions",
+      icon: RiUploadLine,
+    },
+    { name: "View Uploads", link: "/view-uploads", icon: RiUploadLine },
+    { name: "Messages", link: "/messages", icon: AiOutlineUser },
+    { name: "Logout", link: "/admin-login", icon: RiSettings4Line },
+  ];
 
   return (
-    <nav className={`sidebar ${isClosed ? 'close' : ''} ${isDarkMode ? 'dark' : ''}`}>
-      <header className="flex justify-between items-center p-4">
-        <div className="flex items-center">
-          <a href="/">
-            <img
-              src="/assets/logo.jpg"
-              alt="logo"
-              className="w-10 h-10 rounded-lg"
-            />
-          </a>
-          <div className="ml-4">
-            <span className="block font-semibold">Glorius Vision</span>
-            <span className="block text-sm">University</span>
-          </div>
+    <section className="flex">
+      <div className={`${open ? "w-64" : "w-20"} bg-[#fff] min-h-screen text-[#01553d] px-4 transition-all duration-300`}>
+        <div className="py-5 flex justify-end">
+          <HiMenuAlt3 size={30} className="cursor-pointer" onClick={() => setOpen(!open)} />
         </div>
-        <i className="bx bx-chevron-right toggle cursor-pointer text-xl" onClick={handleToggle}></i>
-      </header>
-
-      <div className="menu-bar flex flex-col justify-between flex-1">
-      <ul className="menu-links mt-8 space-y-8 p-4">
-          <li className="nav-link mb-4">
-            <Link to="/admin-dashboard" className="flex items-center p-2 rounded hover:bg-gray-200">
-              <i className="bx bx-home-alt icons text-xl mr-4"></i>
-              <span className="text">Dashboard</span>
-            </Link>
-          </li>
-          <li className="nav-link mb-4">
-            <Link to="/student-management" className="flex items-center p-2 rounded hover:bg-gray-200">
-              <i className="bx bx-user icons text-xl mr-4"></i>
-              <span className="text">Student Management</span>
-            </Link>
-          </li>
-          <li className="nav-link mb-4">
-            <Link to="/upload-past-questions" className="flex items-center p-2 rounded hover:bg-gray-200">
-              <i className="bx bx-upload icons text-xl mr-4"></i>
-              <span className="text">Upload Past Questions</span>
-            </Link>
-          </li>
-          <li className="nav-link mb-4">
-            <Link to="/view-uploads" className="flex items-center p-2 rounded hover:bg-gray-200">
-              <i className="bx bx-list-ul icons text-xl mr-4"></i>
-              <span className="text">View Uploads</span>
-            </Link>
-          </li>
-          <li className="nav-link mb-4">
-            <Link to="/messages" className="flex items-center p-2 rounded hover:bg-gray-200">
-              <i className="bx bx-list-ul icons text-xl mr-4"></i>
-              <span className="text">Messages</span>
-            </Link>
-          </li>
-        </ul>
-
-        <div className="bottom-content p-4">
-          <li className="nav-link mb-4">
-            <button onClick={handleLogout} className="flex items-center p-2 w-full text-left rounded hover:bg-gray-200">
-              <i className="bx bx-log-out icons text-xl mr-4"></i>
-              <span className="text">Log Out</span>
-            </button>
-          </li>
+        <div className="mt-4 flex flex-col gap-5">
+          <img src={Logo} alt="Logo" width={open ? 150 : 50} height={open ? 150 : 50} />
+          {menus.map((menu, i) => (
+            <div key={i} className={`flex flex-col ${menu.margin && "mt-5"}`}>
+              {menu.link ? (
+                <a href={menu.link} className="group flex items-center text-sm gap-4 font-medium p-2 rounded-md hover:bg-[#013d33]">
+                  <div className="text-2xl">{React.createElement(menu.icon)}</div>
+                  <span className={`whitespace-nowrap ${!open && "hidden"} group-hover:text-white`}>
+                    {menu.name}
+                  </span>
+                </a>
+              ) : (
+                <div onClick={() => toggleDropdown(menu.name.toLowerCase())} className="cursor-pointer">
+                  <div className="group flex items-center text-sm gap-4 font-medium p-2 rounded-md hover:bg-[#013d33]">
+                    <div className="text-2xl">{React.createElement(menu.icon)}</div>
+                    <span className={`whitespace-nowrap ${!open && "hidden"} group-hover:text-white`}>{menu.name}</span>
+                    {menu.children && open && (
+                      <HiPlus className={`transition-transform ${dropdownOpen[menu.name.toLowerCase()] ? 'rotate-45' : ''}`} />
+                    )}
+                  </div>
+                  {dropdownOpen[menu.name.toLowerCase()] && menu.children && (
+                    <div className="flex flex-col pl-4">
+                      {menu.children.map((child, index) => (
+                        child.link ? (
+                          <a href={child.link} key={index} className="py-2 text-sm hover:bg-[#013d33] rounded-md transition-all">{child.name}</a>
+                        ) : (
+                          <div key={index} className="py-2 text-sm hover:bg-[#013d33] rounded-md transition-all">
+                            {child.name}
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
-
-    </nav>
+    </section>
   );
 };
 
 export default AdminSidebar;
-
