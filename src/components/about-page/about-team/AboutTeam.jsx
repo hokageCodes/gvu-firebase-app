@@ -25,22 +25,22 @@ function AboutTeam() {
       <div className="dt-cards-content">
         <TeamCard
           img={profile1}
-          name="Elon Musk"
+          name="Jeffery Ogida"
           title="Project Manager"
         />
         <TeamCard
           img={profile2}
-          name="Elon Musk"
+          name="Tayo Abraham"
           title="Product Designer"
         />
         <TeamCard
           img={profile3}
-          name="Elon Musk"
+          name="John Elumelu"
           title="Frontend Developer"
         />
         <TeamCard
           img={profile4}
-          name="Elon Musk"
+          name="Bright Adochie"
           title="Backend Developer"
         />
       </div>

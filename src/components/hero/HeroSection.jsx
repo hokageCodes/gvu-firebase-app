@@ -1,13 +1,25 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import Aos from "aos";
 import 'aos/dist/aos.css';
 import backgroundImg from '../../assets/he-ro.jpg';
 
 export default function HeroSection() {
+    const { currentUser } = useAuth();
+    const navigate = useNavigate();
+
     useEffect(() => {
         Aos.init({ duration: 1000 });
     }, []);
+
+    const handleGetStarted = () => {
+        if (currentUser) {
+            navigate('/student-dashboard');
+        } else {
+            navigate('/login');
+        }
+    };
 
     return (
         <div className="relative">
@@ -27,11 +39,12 @@ export default function HeroSection() {
                         <p className="text-sm md:text-base text-slate-700" data-aos="fade-up" data-aos-delay="300">
                             Your Gateway to success, Access a wealth of past questions on our platform. Elevate your preparation with proven exam insights, topic guidance, and time management practice. Empowering students to excel in exams and embrace a brighter academic future.
                         </p>
-                        <Link to='/login'>
-                            <button className="bg-slate-900 hover:bg-slate-700 text-white rounded py-2 px-4 text-sm md:text-lg font-semibold">
-                                Get started
-                            </button>
-                        </Link>
+                        <button
+                            onClick={handleGetStarted}
+                            className="bg-slate-900 hover:bg-slate-700 text-white rounded py-2 px-4 text-sm md:text-lg font-semibold"
+                        >
+                            Get started
+                        </button>
                     </div>
                 </div>
                 <div className="mt-4 flex justify-center">
@@ -55,11 +68,12 @@ export default function HeroSection() {
                         <p className="text-sm md:text-base text-slate-700" data-aos="fade-up" data-aos-delay="300">
                             Your Gateway to success, Access a wealth of past questions on our platform. Elevate your preparation with proven exam insights, topic guidance, and time management practice. Empowering students to excel in exams and embrace a brighter academic future.
                         </p>
-                        <Link to='/login'>
-                            <button className="bg-slate-900 hover:bg-slate-700 text-white rounded py-2 px-4 text-sm md:text-lg font-semibold">
-                                Get started
-                            </button>
-                        </Link>
+                        <button
+                            onClick={handleGetStarted}
+                            className="bg-slate-900 w-36 hover:bg-slate-700 text-white rounded py-2 px-4 text-sm md:text-lg font-semibold"
+                        >
+                            Get started
+                        </button>
                     </div>
                 </div>
             </div>

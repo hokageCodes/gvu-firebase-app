@@ -102,6 +102,7 @@ const UploadPastQuestions = () => {
             setUploadSuccess('File uploaded successfully.');
             setFormData(initialFormData);
             setUploadProgress(0);
+            window.location.href = (`/levels/${colleges.indexOf(formData.college)}/${departments[formData.college].indexOf(formData.department)}`);
           } catch (error) {
             console.error('Error adding metadata to Firestore:', error);
             setUploadError('Error adding metadata to Firestore. Please try again.');
@@ -204,8 +205,7 @@ const UploadPastQuestions = () => {
         </div>
         <div>
           <label className="block text-gray-700">Upload File</label>
-          <input
-            type="file"
+          <input             type="file"
             onChange={handleFileChange}
             className="w-full p-2 border border-gray-300 rounded"
             required

@@ -14,7 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UploadPastQuestions from "./components/admin/UploadPastQuestions";
 import ManageStudents from "./components/admin/ManageStudents";
 import ViewUploads from "./components/admin/ViewUploads";
-import AdminLayout from "./components/admin/AdminLayout"; // Import AdminLayout
+import AdminLayout from "./components/admin/AdminLayout";
 import LandingPage from "./pages/LandingPage";
 import AboutPage from "./pages/AboutPage";
 import CGPACalculator from "./pages/CGPACalculator";
@@ -23,6 +23,7 @@ import PastQuestionsPage from "./pages/PastQuestionsPage";
 import LevelsPage from "./pages/LevelsPage";
 import DepartmentsPage from "./pages/DepartmentsPage";
 import Contact from "./pages/ContactPage";
+// import ActualPQsPage from "./pages/ActualPQs";
 
 const Layout = ({ children }) => {
   const { currentUser, isAdmin } = useAuth();
@@ -39,7 +40,7 @@ const Layout = ({ children }) => {
   if (isAdmin) {
     return (
       <>
-        <AdminLayout>{children}</AdminLayout> {/* Render AdminLayout for admin */}
+        <AdminLayout>{children}</AdminLayout>
       </>
     );
   }
@@ -58,7 +59,6 @@ function App() {
       <AuthProvider>
         <Layout>
           <Routes>
-            {/* App Pages */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/contact-us" element={<Contact />} />
             <Route path="/about" element={<AboutPage />} />
@@ -66,8 +66,8 @@ function App() {
             <Route path="/past-questions" element={<PastQuestionsPage />} />
             <Route path="/departments/:facultyId" element={<DepartmentsPage />} />
             <Route path="/levels/:facultyId/:departmentId" element={<LevelsPage />} />
+            {/* <Route path="/past-questions/:levelIndex" element={<ActualPQsPage />} /> */}
             <Route path="/faqs" element={<FAQs />} />
-            {/* App Pages End */}
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin-login" element={<AdminLogin />} />
@@ -83,7 +83,7 @@ function App() {
               path="/admin-dashboard"
               element={
                 <ProtectedRoute adminOnly>
-                  <AdminDashboard /> {/* Render AdminDashboard */}
+                  <AdminDashboard />
                 </ProtectedRoute>
               }
             />
