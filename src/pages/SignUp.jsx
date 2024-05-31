@@ -78,6 +78,9 @@ const SignUp = () => {
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full" disabled={loading}>
           {loading ? "Signing Up..." : "Sign Up"}
         </button>
+        <div className="mt-4 text-center">
+          <p>Already have an account? <a href="/login" className="text-blue-500">Login</a></p>
+        </div>
       </form>
     </div>
   );

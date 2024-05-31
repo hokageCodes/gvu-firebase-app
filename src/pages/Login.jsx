@@ -15,7 +15,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/student-dashboard");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -44,6 +44,9 @@ const Login = () => {
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full" disabled={loading}>
           {loading ? "Logging In..." : "Login"}
         </button>
+        <div className="mt-4 text-center">
+          <p>Don't have an account? <a href="/signup" className="text-blue-500">Sign up</a></p>
+        </div>
       </form>
     </div>
   );
