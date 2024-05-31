@@ -15,7 +15,7 @@ export default function HeroSection() {
 
     const handleGetStarted = () => {
         if (currentUser) {
-            navigate('/student-dashboard');
+            navigate('/past-questions');
         } else {
             navigate('/login');
         }

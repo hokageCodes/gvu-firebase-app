@@ -23,7 +23,8 @@ import PastQuestionsPage from "./pages/PastQuestionsPage";
 import LevelsPage from "./pages/LevelsPage";
 import DepartmentsPage from "./pages/DepartmentsPage";
 import Contact from "./pages/ContactPage";
-// import ActualPQsPage from "./pages/ActualPQs";
+import Footer from "./components/footer/Footer";
+import PQsTable from "./components/past-questions/PQsTable";
 
 const Layout = ({ children }) => {
   const { currentUser, isAdmin } = useAuth();
@@ -32,7 +33,8 @@ const Layout = ({ children }) => {
     return (
       <>
         <PublicNavBar />
-        <div>{children}</div>
+          <div>{children}</div>
+        <Footer />
       </>
     );
   }
@@ -48,7 +50,8 @@ const Layout = ({ children }) => {
   return (
     <>
       <StudentNavBar />
-      <div>{children}</div>
+        <div>{children}</div>
+      <Footer />
     </>
   );
 };
@@ -66,7 +69,7 @@ function App() {
             <Route path="/past-questions" element={<PastQuestionsPage />} />
             <Route path="/departments/:facultyId" element={<DepartmentsPage />} />
             <Route path="/levels/:facultyId/:departmentId" element={<LevelsPage />} />
-            {/* <Route path="/past-questions/:levelIndex" element={<ActualPQsPage />} /> */}
+            <Route path="/past-questions/:facultyId/:departmentId/:levelIndex" element={<PQsTable />} />
             <Route path="/faqs" element={<FAQs />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
