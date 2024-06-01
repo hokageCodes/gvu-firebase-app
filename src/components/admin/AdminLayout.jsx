@@ -7,6 +7,7 @@ import ManageStudents from './ManageStudents';
 import UploadPastQuestions from './UploadPastQuestions';
 import ViewUploads from './ViewUploads';
 import ViewMessages from './ViewMessages';
+import AdminProfilePage from '../../pages/AdminProfilePage';
 
 const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,6 +28,7 @@ const AdminLayout = () => {
             <Route path="/upload-past-questions" element={<UploadPastQuestions />} />
             <Route path="/view-uploads" element={<ViewUploads />} />
             <Route path="/messages" element={<ViewMessages />} />
+            <Route path="/admin-profile" element={<AdminProfilePage />} />
           </Routes>
         </main>
       </div>

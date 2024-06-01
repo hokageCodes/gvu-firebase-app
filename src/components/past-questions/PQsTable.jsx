@@ -101,7 +101,7 @@ function PQsTable() {
               <th className="border border-gray-400 px-4 py-2">File Size</th>
               <th className="border border-gray-400 px-4 py-2">Session/Year</th>
               <th className="border border-gray-400 px-4 py-2">Semester</th>
-              <th className="border border-gray-400 px-4 py-2">Action</th>
+              <th className="border border-gray-400 px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -114,8 +114,12 @@ function PQsTable() {
                 <td className="border border-gray-400 px-4 py-2 text-center">{question.year}</td>
                 <td className="border border-gray-400 px-4 py-2 text-center">{question.semester}</td>
                 <td className="border border-gray-400 px-4 py-2 text-center">
-                  <a href={question.fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 font-semibold hover:underline flex items-center justify-center">
-                    <HiOutlineDocumentDownload className="mr-1" /> View / Download
+                  <a href={question.fileUrl} download={question.fileName} className="text-blue-500 font-semibold hover:underline flex items-center justify-center">
+                    <HiOutlineDocumentDownload className="mr-1" /> Download
+                  </a>
+
+                  <a href={question.fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 font-semibold hover:underline flex items-center justify-center mt-2">
+                    <HiOutlineDocumentDownload className="mr-1" /> View
                   </a>
                 </td>
               </tr>

@@ -1,13 +1,17 @@
+// DepartmentCard.js
 import React from "react";
 import { FaGraduationCap } from "react-icons/fa";
 
-function DepartmentCard({ name, description, imageUrl }) {
+function DepartmentCard({ name, description, imageUrl, isCollege }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-      <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
+      {isCollege ? (
+        <img src={imageUrl} alt={name} className="w-full h-48 object-cover" />
+      ) : (
+        <FaGraduationCap className="text-blue-500 text-6xl mx-auto mt-6" />
+      )}
       <div className="p-6">
         <div className="flex items-center mb-2">
-          <FaGraduationCap className="text-blue-500 text-2xl mr-2" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
             {name}
           </h3>

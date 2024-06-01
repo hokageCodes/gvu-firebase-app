@@ -81,11 +81,11 @@ export default function ContactPage() {
           <ul className="list-none space-y-4">
             <li className="flex items-center justify-center">
               <span className="text-blue-600 mr-2">📧</span> 
-              <span>Email: support@gvu.edu</span>
+              <span>Email: gvupastquestions@gmail.com</span>
             </li>
             <li className="flex items-center justify-center">
               <span className="text-blue-600 mr-2">📞</span> 
-              <span>Phone: +123-456-7890</span>
+              <span>Phone: +234 90 154 2031 54</span>
             </li>
             <li className="flex items-center justify-center">
               <span className="text-blue-600 mr-2">📍</span> 

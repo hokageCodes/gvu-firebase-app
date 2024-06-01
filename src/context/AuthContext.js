@@ -15,10 +15,11 @@ export const AuthProvider = ({ children }) => {
   const [adminName, setAdminName] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [adminPhotoURL, setAdminPhotoURL] = useState(""); // New state for admin photo URL
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setLoading(true);
+      setLoading(true); // Set loading to true when auth state changes
       if (user) {
         setCurrentUser(user);
   
@@ -28,11 +29,13 @@ export const AuthProvider = ({ children }) => {
           setAdminName(adminSnapshot.data().adminName);
           setAdminEmail(adminSnapshot.data().adminEmail);
           setAdminPassword(adminSnapshot.data().adminPassword);
+          setAdminPhotoURL(adminSnapshot.data().profileImage); // Set admin photo URL
         } else {
           setIsAdmin(false);
           setAdminName("");
           setAdminEmail("");
           setAdminPassword("");
+          setAdminPhotoURL(""); // Clear admin photo URL
         }
       } else {
         setCurrentUser(null);
@@ -40,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         setAdminName("");
         setAdminEmail("");
         setAdminPassword("");
+        setAdminPhotoURL(""); // Clear admin photo URL
       }
       setLoading(false); // Set loading to false after operations
     });
@@ -53,6 +57,7 @@ export const AuthProvider = ({ children }) => {
     adminName,
     adminEmail,
     adminPassword,
+    adminPhotoURL,
     loading // Add loading to context value
   };
 

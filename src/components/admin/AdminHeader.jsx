@@ -7,7 +7,7 @@ import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 
 const AdminHeader = () => {
-  const { currentUser, adminName, adminEmail } = useAuth();
+  const { currentUser, adminName, adminEmail, adminPhotoURL } = useAuth(); // Updated to include adminPhotoURL
   const [greeting, setGreeting] = useState('');
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [messagesDropdownOpen, setMessagesDropdownOpen] = useState(false);
@@ -139,8 +139,8 @@ const AdminHeader = () => {
         <div className="relative flex items-center gap-4" ref={menuRef}>
           <div className="flex items-center cursor-pointer" onClick={toggleProfileMenu}>
             <img 
-              src={currentUser ? currentUser.photoURL : 'https://via.placeholder.com/40'} 
-              alt="User" 
+              src={adminPhotoURL || 'https://via.placeholder.com/39'} // Updated to use adminPhotoURL
+              alt="admin" 
               className="rounded-full border-2 border-gray-300 h-8 w-8 sm:h-10 sm:w-10 object-cover" 
             />
             <IoIosArrowDown className="ml-2" />
@@ -152,8 +152,7 @@ const AdminHeader = () => {
                 <p className="text-xs sm:text-sm text-gray-500">{adminEmail}</p>
               </div>
               <hr />
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+              <a href="/admin-profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
               <button 
                 onClick={handleLogout} 
                 className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -169,3 +168,4 @@ const AdminHeader = () => {
 };
               
 export default AdminHeader;
+

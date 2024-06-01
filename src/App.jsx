@@ -26,6 +26,7 @@ import Contact from "./pages/ContactPage";
 import Footer from "./components/footer/Footer";
 import PQsTable from "./components/past-questions/PQsTable";
 import StudentProfilePage from "./pages/StudentProfilePage";
+import AdminProfilePage from "./pages/AdminProfilePage";
 
 const Layout = ({ children }) => {
   const { currentUser, isAdmin } = useAuth();

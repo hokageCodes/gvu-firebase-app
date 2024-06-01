@@ -1,3 +1,4 @@
+// PastQuestionsPage.js
 import React from "react";
 import { Link } from "react-router-dom";
 import facultiesData from "../data/faculties.json";
@@ -12,8 +13,9 @@ function PastQuestionsPage() {
           <Link to={`/departments/${index}`} key={index}>
             <DepartmentCard
               name={faculty.name}
-              description="Write an amazing description in this dedicated card section. Each word counts."
-              imageUrl={faculty.imageUrl} // use dynamic image URL
+              description="Explore the various departments, and courses that we offer in our esteemed colleges"
+              imageUrl={faculty.imageUrl}
+              isCollege={true} // Pass a prop to indicate it's a college
             />
           </Link>
         ))}

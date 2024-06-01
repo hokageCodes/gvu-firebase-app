@@ -25,7 +25,7 @@ const AdminSidebar = () => {
     },
     { name: "View Uploads", link: "/view-uploads", icon: RiUploadLine },
     { name: "Messages", link: "/messages", icon: AiOutlineUser },
-    // { name: "Logout", link: "/admin-login", icon: RiSettings4Line },
+    { name: "profile", link: "/admin-profile", icon: RiSettings4Line },
   ];
 
   return (

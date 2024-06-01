@@ -106,7 +106,8 @@ const StudentNavBar = () => {
               <div className="flex flex-col space-y-2 mt-8">
                 <Link to="/student-dashboard" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Dashboard</Link>
                 <Link to="/student-profile" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Profile</Link>
-                <button onClick={handleLogout} className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Logout</button>
+                <button className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => { handleLogout(); setNavOpen(false); }}>Logout</button>
+
               </div>
             )}
           </div>
