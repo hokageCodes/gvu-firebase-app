@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     }
   }, [currentUser]);
 
-  if (authLoading || loading) return <div>Loading...</div>; // Show loading state until checks are complete
+  if (authLoading || loading) return <div>Loading...</div>;
 
   if (!currentUser) return <Navigate to="/login" />;
 

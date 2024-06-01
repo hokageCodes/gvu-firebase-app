@@ -25,6 +25,7 @@ import DepartmentsPage from "./pages/DepartmentsPage";
 import Contact from "./pages/ContactPage";
 import Footer from "./components/footer/Footer";
 import PQsTable from "./components/past-questions/PQsTable";
+import StudentProfilePage from "./pages/StudentProfilePage";
 
 const Layout = ({ children }) => {
   const { currentUser, isAdmin } = useAuth();
@@ -79,6 +80,14 @@ function App() {
               element={
                 <ProtectedRoute studentOnly>
                   <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/student-profile"
+              element={
+                <ProtectedRoute studentOnly>
+                  <StudentProfilePage />
                 </ProtectedRoute>
               }
             />

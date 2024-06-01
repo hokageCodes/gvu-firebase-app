@@ -1,9 +1,9 @@
 import React from "react";
 import TeamCard from "./TeamCard";
-import profile1 from "../../../assets/team.jpg";
-import profile2 from "../../../assets/team.jpg";
-import profile3 from "../../../assets/team.jpg";
-import profile4 from "../../../assets/team.jpg";
+import profile1 from "../../../assets/2.jpg";
+import profile2 from "../../../assets/1.jpg";
+import profile3 from "../../../assets/3.jpg";
+import profile4 from "../../../assets/4.jpg";
 import "./team.css";
 
 function AboutTeam() {
