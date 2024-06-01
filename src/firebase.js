@@ -4,13 +4,21 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBII5KM9BJIMITaZe-2qr6_gWrm-FU-DW8",
-  authDomain: "glorius-uni.firebaseapp.com",
-  projectId: "glorius-uni",
-  storageBucket: "glorius-uni.appspot.com",
-  messagingSenderId: "790327420734",
-  appId: "1:790327420734:web:93d65252a48d82a644ae6f",
-  measurementId: "G-R2JCXNT45C"
+
+  apiKey: "AIzaSyBAYrRx2sBPBuptAH5AZbFP2ct-vpYsfZg",
+
+  authDomain: "gvu-pqs-ce195.firebaseapp.com",
+
+  projectId: "gvu-pqs-ce195",
+
+  storageBucket: "gvu-pqs-ce195.appspot.com",
+
+  messagingSenderId: "567169905493",
+
+  appId: "1:567169905493:web:38a6499adb070e8e5c75dc",
+
+  measurementId: "G-NXQNNMDJ3Z"
+
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
