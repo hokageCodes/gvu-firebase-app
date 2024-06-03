@@ -19,12 +19,15 @@ const StudentNavBar = () => {
         if (docSnap.exists()) {
           setUserData(docSnap.data());
         } else {
-          console.error("No such document!");
+          // Handle non-existent document gracefully
+          console.log("Document does not exist for this user.");
+          setUserData(null); // Set userData to null or provide default values
         }
       } catch (error) {
         console.error("Error getting user document:", error);
       }
     };
+    
 
     if (currentUser) {
       fetchUserData();
@@ -68,7 +71,7 @@ const StudentNavBar = () => {
       ) : (
         <div className="md:flex hidden items-center space-x-4 relative">
           <button onClick={() => setAvatarDropdownOpen(!avatarDropdownOpen)} className="flex items-center focus:outline-none">
-            <img src={currentUser.photoURL ? currentUser.photoURL : '/assets/user-default.png'} alt="Avatar" className="h-8 w-8 rounded-full" />
+            <img src={userData?.profileImage || '/assets/user-default.png'} alt="Avatar" className="h-8 w-8 rounded-full" />
             {userData && (
               <div className="ml-2 text-left">
                 <p className="text-sm text-gray-700">{userData.fullName}</p>
@@ -80,7 +83,7 @@ const StudentNavBar = () => {
             <div className="absolute right-0 mt-48 w-36 bg-white rounded-md shadow-lg z-10">
               <div className="py-1">
                 <Link to="/student-dashboard" className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Dashboard</Link>
-                <Link to="/profile" className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Profile</Link>
+                <Link to="/student-profile" className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Profile</Link>
                 <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">Logout</button>
               </div>
             </div>

@@ -101,14 +101,6 @@ function App() {
               }
             />
             <Route
-              path="/admin/upload"
-              element={
-                <ProtectedRoute adminOnly>
-                  <UploadPastQuestions />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/admin/manage-students"
               element={
                 <ProtectedRoute adminOnly>

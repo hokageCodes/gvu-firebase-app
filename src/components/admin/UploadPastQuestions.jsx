@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { db, storage } from '../../firebase';
+import { db } from '../../firebase';
 import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { useAuth } from '../../context/AuthContext';
 
 const UploadPastQuestions = () => {
+  const { currentUser } = useAuth();
+
   const initialFormData = {
     college: '',
     department: '',
@@ -11,11 +13,10 @@ const UploadPastQuestions = () => {
     year: '',
     semester: '',
     courseCode: '',
-    file: null
+    fileUrl: ''
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadError, setUploadError] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(null);
 
@@ -58,13 +59,25 @@ const UploadPastQuestions = () => {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, file: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setFormData({ ...formData, fileUrl: fileReader.result });
+      };
+      fileReader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.file) {
+    if (!formData.fileUrl) {
       setUploadError('Please upload a file.');
+      return;
+    }
+
+    if (!currentUser) {
+      setUploadError('User is not authenticated.');
       return;
     }
 
@@ -72,46 +85,23 @@ const UploadPastQuestions = () => {
     setUploadSuccess(null);
 
     try {
-      const fileRef = ref(storage, `past-questions/${formData.college}/${formData.department}/${formData.level}/${formData.year}/${formData.semester}/${formData.courseCode}_${formData.file.name}`);
-      const uploadTask = uploadBytesResumable(fileRef, formData.file);
+      await addDoc(collection(db, 'past-questions'), {
+        college: formData.college,
+        department: formData.department,
+        level: formData.level,
+        year: formData.year,
+        semester: formData.semester,
+        courseCode: formData.courseCode,
+        fileUrl: formData.fileUrl,
+        uploadedBy: currentUser.uid,
+        uploadedAt: new Date()
+      });
 
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress(progress);
-        },
-        (error) => {
-          console.error('Error uploading file:', error);
-          setUploadError('Error uploading file. Please try again.');
-        },
-        async () => {
-          try {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            await addDoc(collection(db, 'past-questions'), {
-              college: formData.college,
-              department: formData.department,
-              level: formData.level,
-              year: formData.year,
-              semester: formData.semester,
-              courseCode: formData.courseCode,
-              fileUrl: downloadURL,
-              fileName: formData.file.name,
-              fileSize: formData.file.size
-            });
-
-            setUploadSuccess('File uploaded successfully.');
-            setFormData(initialFormData);
-            setUploadProgress(0);
-            window.location.href = (`/levels/${colleges.indexOf(formData.college)}/${departments[formData.college].indexOf(formData.department)}`);
-          } catch (error) {
-            console.error('Error adding metadata to Firestore:', error);
-            setUploadError('Error adding metadata to Firestore. Please try again.');
-          }
-        }
-      );
+      setUploadSuccess('File uploaded successfully.');
+      setFormData(initialFormData);
     } catch (error) {
-      console.error('Error uploading file: ', error);
-      setUploadError('Error uploading file. Please try again.');
+      console.error('Error adding data to Firestore:', error);
+      setUploadError(`Error adding data to Firestore: ${error.message}`);
     }
   };
 
@@ -205,22 +195,13 @@ const UploadPastQuestions = () => {
         </div>
         <div>
           <label className="block text-gray-700">Upload File</label>
-          <input             type="file"
+          <input
+            type="file"
             onChange={handleFileChange}
             className="w-full p-2 border border-gray-300 rounded"
             required
           />
         </div>
-        {uploadProgress > 0 && (
-          <div className="w-full bg-gray-200 rounded-full">
-            <div
-              className="bg-blue-500 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-              style={{ width: `${uploadProgress}%` }}
-            >
-              {uploadProgress.toFixed(2)}%
-            </div>
-          </div>
-        )}
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">Upload</button>
       </form>
     </div>

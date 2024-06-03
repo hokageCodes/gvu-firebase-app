@@ -15,42 +15,44 @@ export const AuthProvider = ({ children }) => {
   const [adminName, setAdminName] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
-  const [adminPhotoURL, setAdminPhotoURL] = useState(""); // New state for admin photo URL
+  const [adminPhotoURL, setAdminPhotoURL] = useState("");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setLoading(true); // Set loading to true when auth state changes
+      setLoading(true);
       if (user) {
+        console.log("User logged in:", user);
         setCurrentUser(user);
-  
         const adminSnapshot = await getDoc(doc(db, 'admin', user.uid));
         if (adminSnapshot.exists()) {
+          console.log("Admin details:", adminSnapshot.data());
           setIsAdmin(true);
           setAdminName(adminSnapshot.data().adminName);
           setAdminEmail(adminSnapshot.data().adminEmail);
           setAdminPassword(adminSnapshot.data().adminPassword);
-          setAdminPhotoURL(adminSnapshot.data().profileImage); // Set admin photo URL
+          setAdminPhotoURL(adminSnapshot.data().profileImage);
         } else {
           setIsAdmin(false);
           setAdminName("");
           setAdminEmail("");
           setAdminPassword("");
-          setAdminPhotoURL(""); // Clear admin photo URL
+          setAdminPhotoURL("");
         }
       } else {
+        console.log("No user logged in.");
         setCurrentUser(null);
         setIsAdmin(false);
         setAdminName("");
         setAdminEmail("");
         setAdminPassword("");
-        setAdminPhotoURL(""); // Clear admin photo URL
+        setAdminPhotoURL("");
       }
-      setLoading(false); // Set loading to false after operations
+      setLoading(false);
     });
-  
+
     return unsubscribe;
   }, []);
-  
+
   const value = {
     currentUser,
     isAdmin,
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     adminEmail,
     adminPassword,
     adminPhotoURL,
-    loading // Add loading to context value
+    loading
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

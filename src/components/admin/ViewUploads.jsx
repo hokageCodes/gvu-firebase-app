@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { AiOutlineEye, AiOutlineDelete } from 'react-icons/ai'; // Importing React Icons
+import { AiOutlineEye, AiOutlineDelete } from 'react-icons/ai';
 
 const ViewUploads = () => {
   const [uploads, setUploads] = useState([]);
@@ -59,8 +59,7 @@ const ViewUploads = () => {
         setFilteredUploads(uploadsData);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching uploads:', error);
-        setLoading(false);
+        console.error('Error fetching data from Firestore:', error);
       }
     };
 
@@ -68,170 +67,112 @@ const ViewUploads = () => {
   }, []);
 
   useEffect(() => {
-    filterUploads();
-  }, [selectedCollege, selectedDepartment, selectedLevel, searchTerm]);
-
-  const filterUploads = () => {
-    let filtered = uploads;
-
-    if (selectedCollege) {
-      filtered = filtered.filter(upload => upload.college === selectedCollege);
-    }
-
-    if (selectedDepartment) {
-      filtered = filtered.filter(upload => upload.department === selectedDepartment);
-    }
-
-    if (selectedLevel) {
-      filtered = filtered.filter(upload => upload.level === selectedLevel);
-    }
-
-    if (searchTerm) {
-      filtered = filtered.filter(upload =>
-        upload.fileName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
+    const filtered = uploads.filter(upload => 
+      upload.courseCode.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCollege ? upload.college === selectedCollege : true) &&
+      (selectedDepartment ? upload.department === selectedDepartment : true) &&
+      (selectedLevel ? upload.level === selectedLevel : true)
+    );
     setFilteredUploads(filtered);
-  };
+  }, [searchTerm, selectedCollege, selectedDepartment, selectedLevel, uploads]);
 
-  const handleCollegeChange = (e) => {
-    setSelectedCollege(e.target.value);
-    setSelectedDepartment('');
-  };
-
-  const handleDepartmentChange = (e) => {
-    setSelectedDepartment(e.target.value);
-  };
-
-  const handleLevelChange = (e) => {
-    setSelectedLevel(e.target.value);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleViewFile = (fileUrl) => {
-    window.open(fileUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleDeleteFile = async (id) => {
+  const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, 'past-questions', id));
       setUploads(uploads.filter(upload => upload.id !== id));
       setFilteredUploads(filteredUploads.filter(upload => upload.id !== id));
     } catch (error) {
-      console.error('Error deleting file:', error);
+      console.error('Error deleting document:', error);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-
   return (
-    <div className="container mx-auto px-4 sm:px-8">
-      <div className="py-8">
-        <div>
-          <h2 className="text-2xl font-semibold leading-tight">View Uploads</h2>
-        </div>
-        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-            <div className="flex flex-wrap items-center justify-between mb-4">
-              <div className="w-full md:w-2/5 lg:w-1/4 mb-4 md:mb-0">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                  className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md"
-                  placeholder="Search by file name"
-                />
-              </div>
-              <div className="relative w-full md:w-2/5 lg:w-1/4 mb-4 md:mb-0">
-                <select
-                  value={selectedCollege}
-                  onChange={handleCollegeChange}
-                  className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md"
-                >
-                  <option value="">All Colleges</option>
-                  {colleges.map((college, index) => (
-                    <option key={index} value={college}>{college}</option>
-                  ))}
-                </select>
-              </div>
-              {selectedCollege && (
-                <div className="relative w-full md:w-2/5 lg:w-1/4 mb-4 md:mb-0">
-                  <select
-                    value={selectedDepartment}
-                    onChange={handleDepartmentChange}
-                    className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md"
-                  >
-                    <option value="">All Departments</option>
-                    {departments[selectedCollege].map((department, index) => (
-                      <option key={index} value={department}>{department}</option>
-                    ))}
-                  </select>
-                </div>
-              )}
-              <div className="relative w-full md:w-1/5 lg:w-1/4 mb-4 md:mb-0">
-                <select
-                  value={selectedLevel}
-                  onChange={handleLevelChange}
-                  className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md"
-                >
-                  <option value="">All Levels</option>
-                  {levels.map((level, index) => (
-                    <option key={index} value={level}>{level}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {filteredUploads.length === 0 ? (
-              <div>No data available.</div>
-            ) : (
-              <table className="min-w-full leading-normal">
-                <thead>
-                  <tr>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">College</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Department</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Level</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">File Name</th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUploads.map((upload) => (
-                    <tr key={upload.id}>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-normal">{upload.college}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-normal">{upload.department}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-normal">{upload.level}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p className="text-gray-900 whitespace-normal">{upload.fileName}</p>
-                      </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                        <AiOutlineEye
-                          className="inline-block mr-2 text-blue-600 hover:text-blue-800 cursor-pointer"
-                          onClick={() => handleViewFile(upload.fileUrl)}
-                        />
-                        <AiOutlineDelete
-                          className="inline-block text-red-600 hover:text-red-800 cursor-pointer"
-                          onClick={() => handleDeleteFile(upload.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
-          </div>
-        </div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">View Uploads</h1>
+      <div className="mb-4 flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
+        <input
+          type="text"
+          placeholder="Search by Course Code"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+        <select
+          value={selectedCollege}
+          onChange={(e) => setSelectedCollege(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">Filter by College</option>
+          {colleges.map((college, index) => (
+            <option key={index} value={college}>{college}</option>
+          ))}
+        </select>
+        <select
+          value={selectedDepartment}
+          onChange={(e) => setSelectedDepartment(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">Filter by Department</option>
+          {selectedCollege && departments[selectedCollege].map((department, index) => (
+            <option key={index} value={department}>{department}</option>
+          ))}
+        </select>
+        <select
+          value={selectedLevel}
+          onChange={(e) => setSelectedLevel(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
+        >
+          <option value="">Filter by Level</option>
+          {levels.map((level, index) => (
+            <option key={index} value={level}>{level}</option>
+          ))}
+        </select>
       </div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Course Code</th>
+              <th className="py-2 px-4 border-b">College</th>
+              <th className="py-2 px-4 border-b">Department</th>
+              <th className="py-2 px-4 border-b">Level</th>
+              <th className="py-2 px-4 border-b">Year</th>
+              <th className="py-2 px-4 border-b">Semester</th>
+              <th className="py-2 px-4 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredUploads.map((upload) => (
+              <tr key={upload.id}>
+                <td className="py-2 px-4 border-b">{upload.courseCode}</td>
+                <td className="py-2 px-4 border-b">{upload.college}</td>
+                <td className="py-2 px-4 border-b">{upload.department}</td>
+                <td className="py-2 px-4 border-b">{upload.level}</td>
+                <td className="py-2 px-4 border-b">{upload.year}</td>
+                <td className="py-2 px-4 border-b">{upload.semester}</td>
+                <td className="py-2 px-4 border-b flex space-x-2">
+                  <a
+                    href={upload.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500"
+                  >
+                    <AiOutlineEye size={20} />
+                  </a>
+                  <button
+                    onClick={() => handleDelete(upload.id)}
+                    className="text-red-500"
+                  >
+                    <AiOutlineDelete size={20} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
