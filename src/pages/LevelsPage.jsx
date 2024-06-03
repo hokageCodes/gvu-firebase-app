@@ -8,12 +8,28 @@ function LevelsPage() {
   const { currentUser } = useAuth(); // Get the currentUser from the AuthContext
   const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
-  const levels = [
-    { level: "100 Level", description: "Our 100 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book1.png" },
-    { level: "200 Level", description: "Our 200 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book2.jpg" },
-    { level: "300 Level", description: "Our 300 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book3.png" },
-    { level: "400 Level", description: "Our 400 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book4.jpg" },
-  ];
+  const { collegeId } = useParams(); // Get the collegeId from the route params
+
+  let levels = [];
+
+  if (collegeId === "3") {
+    // Display levels 100 to 500
+    levels = [
+      { level: "100 Level", description: "Our 100 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book1.png" },
+      { level: "200 Level", description: "Our 200 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book2.jpg" },
+      { level: "300 Level", description: "Our 300 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book3.png" },
+      { level: "400 Level", description: "Our 400 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book4.jpg" },
+      { level: "500 Level", description: "Our 500 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book5.jpg" },
+    ];
+  } else {
+    // Default levels
+    levels = [
+      { level: "100 Level", description: "Our 100 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book1.png" },
+      { level: "200 Level", description: "Our 200 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book2.jpg" },
+      { level: "300 Level", description: "Our 300 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book3.png" },
+      { level: "400 Level", description: "Our 400 level student learning resources cover various Courses, ensuring that you have access to materials that align with your coursework and academic goals.", imageUrl: "/assets/book4.jpg" },
+    ];
+  }
 
   // Function to handle redirection if user is not logged in
   const handleExploreClick = (levelInfo) => {

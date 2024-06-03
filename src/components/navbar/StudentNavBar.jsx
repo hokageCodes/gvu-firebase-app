@@ -27,7 +27,6 @@ const StudentNavBar = () => {
         console.error("Error getting user document:", error);
       }
     };
-    
 
     if (currentUser) {
       fetchUserData();
@@ -47,9 +46,9 @@ const StudentNavBar = () => {
     <nav className="bg-white shadow-md py-4 px-8 flex justify-between items-center">
       <div className="flex items-center">
         <a href="/">
-        <img src="/assets/logo.jpg" alt="Logo" className="h-10 w-10" />  
-        </a>  
-        <span className="text-lg">Glorius Vision University</span> 
+          <img src="/assets/logo.jpg" alt="Logo" className="h-10 w-10" />
+        </a>
+        <span className="text-lg">Glorius Vision University</span>
       </div>
       <div className="md:hidden flex items-center">
         <button onClick={() => setNavOpen(!navOpen)}>
@@ -104,11 +103,17 @@ const StudentNavBar = () => {
             <Link to="/past-questions" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Past Questions</Link>
             <Link to="/faqs" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>FAQs</Link>
             <Link to="/contact-us" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Contact Us</Link>
-            {!currentUser && (
-              <div className="flex flex-col space-y-2">
+            {currentUser ? (
+              <>
+                <Link to="/student-dashboard" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Dashboard</Link>
+                <Link to="/student-profile" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Profile</Link>
+                <button onClick={() => { handleLogout(); setNavOpen(false); }} className="py-2 text-lg text-gray-800 hover:text-blue-500 text-left">Logout</button>
+              </>
+            ) : (
+              <>
                 <Link to="/signup" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Sign Up</Link>
                 <Link to="/login" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Login</Link>
-              </div>
+              </>
             )}
           </div>
         </div>

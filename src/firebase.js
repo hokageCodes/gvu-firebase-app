@@ -4,12 +4,21 @@ import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCaFOwRbk_E1GUnHERQ2DknVtY2QEoy5aU",
-  authDomain: "glorius-test.firebaseapp.com",
-  projectId: "glorius-test",
-  storageBucket: "glorius-test.appspot.com",
-  messagingSenderId: "1068505035492",
-  appId: "1:1068505035492:web:e5e1af8f4848f89dd3b2f1"
+
+  apiKey: "AIzaSyBAYrRx2sBPBuptAH5AZbFP2ct-vpYsfZg",
+
+  authDomain: "gvu-pqs-ce195.firebaseapp.com",
+
+  projectId: "gvu-pqs-ce195",
+
+  storageBucket: "gvu-pqs-ce195.appspot.com",
+
+  messagingSenderId: "567169905493",
+
+  appId: "1:567169905493:web:38a6499adb070e8e5c75dc",
+
+  measurementId: "G-NXQNNMDJ3Z"
+
 };
 
 const app = initializeApp(firebaseConfig);
