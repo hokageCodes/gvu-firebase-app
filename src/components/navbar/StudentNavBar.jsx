@@ -57,7 +57,7 @@ const StudentNavBar = () => {
       </div>
       <div className="md:flex hidden space-x-6">
         <Link to="/about">About</Link>
-        <Link to="/cgpa-calculator">CGPA Calculator</Link>
+        {/* <Link to="/cgpa-calculator">CGPA Calculator</Link> */}
         <Link to="/past-questions">Past Questions</Link>
         <Link to="/faqs">FAQs</Link>
         <Link to="/contact-us">Contact</Link>
@@ -99,7 +99,7 @@ const StudentNavBar = () => {
           </div>
           <div className="flex flex-col space-y-4 px-4">
             <Link to="/about" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>About</Link>
-            <Link to="/cgpa-calculator" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>CGPA Calculator</Link>
+            {/* <Link to="/cgpa-calculator" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>CGPA Calculator</Link> */}
             <Link to="/past-questions" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Past Questions</Link>
             <Link to="/faqs" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>FAQs</Link>
             <Link to="/contact-us" className="py-2 text-lg text-gray-800 hover:text-blue-500" onClick={() => setNavOpen(false)}>Contact Us</Link>
